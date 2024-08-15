@@ -12,13 +12,13 @@ import br.com.desafioapi.desafio_todolist.entity.Todo;
 class DesafioTodolistApplicationTests {
 
 	@Autowired
-	private WebTestClient webTestCliente;
+	private WebTestClient webTestClient;
 
 	@Test
 	void testCreateTodoSuccess() {
 		var todo = new Todo("todo 1", "desc todo 1", false, 1);
 
-		webTestCliente
+		webTestClient
 				.post()
 				.uri("/todos")
 				.bodyValue(todo)
@@ -36,6 +36,13 @@ class DesafioTodolistApplicationTests {
 
 	@Test
 	void testCreateTodoFailure() {
+		webTestClient
+				.post()
+				.uri("/todos")
+				.bodyValue(new Todo("", "", false, 0))
+				.exchange()
+				.expectStatus()
+				.isBadRequest();
 	}
 
 }
